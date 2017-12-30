@@ -130,6 +130,22 @@ public class OrderServiceImplTest {
 		when(orderDao.read(123)).thenReturn(order);
 		when(orderDao.update(order)).thenThrow(SQLException.class);
 		orderService.cancelOrder(123);
+	}
+	
+	@Test
+	public void deleteOrder_shouldDeleteOrder() throws SQLException,
+			OrderServiceException {
+
+		Order order = new Order();
+		order.setOrderId(1);
+		order.setStatus("created");
+
+		when(orderDao.delete(123)).thenReturn(123);
+
+		boolean result = orderService.deleteOrder(123);
+		assertTrue(result);
+		// verifies it is called at least once
+		verify(orderDao).delete(123);
 
 	}
 
